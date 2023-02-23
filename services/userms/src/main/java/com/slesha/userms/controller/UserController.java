@@ -40,14 +40,18 @@ public class UserController{
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getUsers(){
-        try{
-            return new ResponseEntity<>(serv.getUsers(),HttpStatus.OK);
+    public ResponseEntity<List<User>> getUsers() {
+    try {
+        List<User> users = serv.getUsers();
+        for (User user : users) {
+            user.setPhone("+1" + user.getPhone());
         }
-        catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+          return new ResponseEntity<>(users, HttpStatus.OK);
+        } 
+        catch (Exception e) {
+          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+          }
+      }
 
     @GetMapping("/{emailId}")
     public ResponseEntity<User> getUser(@PathVariable String emailId){
